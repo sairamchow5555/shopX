@@ -70,7 +70,7 @@ const products = [
   },
 ];
 
-const HomeScreen = () => {
+const HomeScreen = (props: any) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const onSearchQueryChange = (query: string) => {
@@ -107,7 +107,8 @@ const HomeScreen = () => {
         />
         <View style={styles.header}>
           <Text style={styles.title}>ShopX</Text>
-          <TouchableOpacity onPress={() => console.log('Navigate to cart!')}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('cartItems')}>
             <AntDesign name="shoppingcart" size={26} style={styles.cartIcon} />
           </TouchableOpacity>
         </View>
