@@ -91,6 +91,12 @@ const HomeScreen = () => {
     </View>
   );
 
+  const renderEmptyList = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.noResults}>No products found</Text>
+    </View>
+  );
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -114,17 +120,14 @@ const HomeScreen = () => {
           style={styles.searchbar}
         />
 
-        {filteredProducts.length === 0 ? (
-          <Text style={styles.noResults}>No products found</Text>
-        ) : (
-          <FlatList
-            data={filteredProducts}
-            renderItem={renderProductCard}
-            keyExtractor={item => item.id}
-            numColumns={2} // Display cards in two columns
-            contentContainerStyle={styles.list}
-          />
-        )}
+        <FlatList
+          data={filteredProducts}
+          renderItem={renderProductCard}
+          keyExtractor={item => item.id}
+          numColumns={2} // Display cards in two columns
+          contentContainerStyle={styles.list}
+          ListEmptyComponent={renderEmptyList} // Use ListEmptyComponent here
+        />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -161,6 +164,11 @@ const styles = StyleSheet.create({
   searchbar: {
     marginBottom: 10,
     borderRadius: 10,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   noResults: {
     textAlign: 'center',
