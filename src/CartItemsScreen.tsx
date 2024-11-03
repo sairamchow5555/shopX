@@ -30,7 +30,7 @@ const CartItemsScreen = (props: any) => {
         translucent={true}
       />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('home')}>
           <AntDesign name="back" size={26} style={styles.cartIcon} />
         </TouchableOpacity>
         <Text style={styles.main}>Cart Details</Text>
