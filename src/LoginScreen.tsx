@@ -33,7 +33,7 @@ const LoginScreen = (props: any) => {
     <ImageBackground source={bg1} style={styles.background}>
       {' '}
       <StatusBar
-        barStyle="dark-content"
+        barStyle="light-content"
         backgroundColor="transparent"
         translucent={true}
       />
