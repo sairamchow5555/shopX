@@ -8,8 +8,18 @@ import {
 } from 'react-native';
 import {DataTable} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {CartItem} from './CartProvider';
 
-const CartItemsScreen = (props: any) => {
+interface CartItemsScreenProps {
+  route: {
+    params: {
+      cartItems: CartItem[];
+    };
+  };
+  navigation: any; // Consider typing this based on your navigation structure
+}
+
+const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
   const cartItems = props.route.params?.cartItems || [];
 
   // Calculate total quantity and price
