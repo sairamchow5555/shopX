@@ -21,7 +21,7 @@ const LoginScreen = (props: any) => {
     console.log(username, 'username');
     console.log(password, 'password');
 
-    if (username === 'shop' && password === 'shop') {
+    if (username === 'demo' && password === 'demo') {
       props.navigation.navigate('home');
     } else {
       setErrorMessage('enter valid username and password');
