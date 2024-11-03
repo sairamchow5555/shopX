@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -8,27 +8,28 @@ import {
   StatusBar,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {CartContext, CartItem} from './CartProvider';
 
-// Helper function to get the quantity of a specific product in the cart
-const getCartItemQuantity = (cartItems, productId) => {
+const getCartItemQuantity = (cartItems: CartItem[], productId: string) => {
   const item = cartItems.find(item => item.product.id === productId);
   return item ? item.quantity : 0;
 };
 
-const ItemDetailsScreen = (props: any) => {
-  const {productDetails, cartItems, setCartItems} = props.route.params;
+const ItemDetailsScreen: React.FC<{route: any; navigation: any}> = ({
+  route,
+  navigation,
+}) => {
+  const {productDetails} = route.params; // Get product details from route params
+  const {cartItems, setCartItems} = useContext(CartContext); // Use CartContext
 
-  // Use local state to track quantity
   const [quantity, setQuantity] = useState(
     getCartItemQuantity(cartItems, productDetails.id),
   );
 
-  // Update local quantity state when cart items change
   useEffect(() => {
     setQuantity(getCartItemQuantity(cartItems, productDetails.id));
-  }, [cartItems]); // Rerun when cartItems changes
+  }, [cartItems]);
 
-  // Function to add a product to the cart
   const handleAddToCart = () => {
     setCartItems(prev => {
       const existingItem = prev.find(
@@ -43,10 +44,14 @@ const ItemDetailsScreen = (props: any) => {
       }
       return [...prev, {product: productDetails, quantity: 1}];
     });
-    props.navigation.navigate('cartItems', {cartItems});
+    setQuantity(quantity + 1);
+    const updatedCartItems = [
+      ...cartItems,
+      {product: productDetails, quantity: 1},
+    ];
+    navigation.navigate('cartItems', {cartItems: updatedCartItems});
   };
 
-  // Function to increase the quantity of a product
   const handleIncreaseQuantity = () => {
     setCartItems(prev => {
       const updatedItems = prev.map(item =>
@@ -54,14 +59,11 @@ const ItemDetailsScreen = (props: any) => {
           ? {...item, quantity: item.quantity + 1}
           : item,
       );
-      const newQuantity = getCartItemQuantity(updatedItems, productDetails.id);
-      console.log('New quantity after increase:', newQuantity); // Debugging log
-      setQuantity(newQuantity);
+      setQuantity(getCartItemQuantity(updatedItems, productDetails.id));
       return updatedItems;
     });
   };
 
-  // Function to decrease the quantity of a product
   const handleDecreaseQuantity = () => {
     setCartItems(prev => {
       const existingItem = prev.find(
@@ -74,27 +76,21 @@ const ItemDetailsScreen = (props: any) => {
               ? {...item, quantity: item.quantity - 1}
               : item,
           );
-          const newQuantity = getCartItemQuantity(
-            updatedItems,
-            productDetails.id,
-          );
-          console.log('New quantity after decrease:', newQuantity); // Debugging log
-          setQuantity(newQuantity);
+          setQuantity(getCartItemQuantity(updatedItems, productDetails.id));
           return updatedItems;
         }
         const updatedItems = prev.filter(
           item => item.product.id !== productDetails.id,
         );
-        const newQuantity = getCartItemQuantity(
-          updatedItems,
-          productDetails.id,
-        );
-        console.log('Removed item. New quantity:', newQuantity); // Debugging log
-        setQuantity(newQuantity);
+        setQuantity(0);
         return updatedItems;
       }
-      return prev; // If the item is not in the cart, return the current state
+      return prev;
     });
+  };
+
+  const handleNavigateToCart = () => {
+    navigation.navigate('cartItems', {cartItems});
   };
 
   return (
@@ -105,12 +101,11 @@ const ItemDetailsScreen = (props: any) => {
         translucent={true}
       />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="back" size={26} style={styles.cartIcon} />
         </TouchableOpacity>
         <Text style={styles.main}>Product Details</Text>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('cartItems', {cartItems})}>
+        <TouchableOpacity onPress={handleNavigateToCart}>
           <AntDesign name="shoppingcart" size={26} style={styles.cartIcon} />
         </TouchableOpacity>
       </View>
@@ -118,7 +113,7 @@ const ItemDetailsScreen = (props: any) => {
       <Image source={productDetails.image} style={styles.image} />
       <View style={styles.titlePriceContainer}>
         <Text style={styles.title}>{productDetails.name}</Text>
-        <Text style={styles.price}>{productDetails.price}</Text>
+        <Text style={styles.price}>$ {productDetails.price.toFixed(2)}</Text>
       </View>
       <Text style={styles.description}>{productDetails.description}</Text>
 
