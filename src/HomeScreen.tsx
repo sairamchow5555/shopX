@@ -13,65 +13,98 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Searchbar} from 'react-native-paper';
 
-const products = [
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: any; // Keep this type if using require
+  description: string;
+}
+
+interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+// Sample Products
+const products: Product[] = [
   {
     id: '1',
     name: 'Mouse',
-    price: '$10',
+    price: 10,
     image: require('./images/bg1.jpg'),
+    description:
+      'Elevate your computing experience with this precision mouse. Its ergonomic design ensures comfort during long hours of work or play. The high-resolution sensor delivers accurate cursor control, while the customizable buttons offer efficient workflow.',
   },
   {
     id: '2',
-    name: 'Ear buds',
-    price: '$20',
+    name: 'Earbuds',
+    price: 20,
     image: require('./images/bg1.jpg'),
+    description:
+      'Immerse yourself in your favorite music or podcasts with these high-quality earbuds. The crystal-clear sound and noise-cancellation technology provide an exceptional listening experience. The ergonomic design ensures a comfortable fit, even during extended use.',
   },
   {
     id: '3',
     name: 'Charger',
-    price: '$30',
+    price: 30,
     image: require('./images/bg1.jpg'),
+    description:
+      'Power up your devices quickly and efficiently with this fast-charging charger. Its advanced technology delivers rapid charging speeds, saving you time and hassle. The compact and portable design makes it perfect for on-the-go use.',
   },
   {
     id: '4',
     name: 'Stylish Sunglasses',
-    price: '$40',
+    price: 40,
     image: require('./images/bg1.jpg'),
+    description:
+      'Protect your eyes from harmful UV rays in style with these fashionable sunglasses. The polarized lenses reduce glare and enhance visual clarity, while the sleek frame adds a touch of sophistication to any outfit.',
   },
   {
     id: '5',
     name: 'Comfortable Sneakers',
-    price: '$50',
+    price: 50,
     image: require('./images/bg1.jpg'),
+    description:
+      'Experience ultimate comfort and support with these stylish sneakers. The breathable mesh upper keeps your feet cool and dry, while the cushioned insole provides all-day comfort. Perfect for casual wear or athletic activities.',
   },
   {
     id: '6',
     name: 'Elegant Dress',
-    price: '$60',
+    price: 60,
     image: require('./images/bg1.jpg'),
+    description:
+      'Turn heads with this elegant dress, designed to flatter your figure and enhance your style. The flowing fabric and intricate details create a timeless look, making it perfect for any special occasion.',
   },
   {
     id: '7',
     name: 'Modern Laptop',
-    price: '$700',
+    price: 700,
     image: require('./images/bg1.jpg'),
+    description:
+      'Experience ultimate performance and portability with this powerful laptop. The sleek design and lightweight build make it easy to carry, while the high-resolution display and fast processor deliver a seamless user experience.',
   },
   {
     id: '8',
     name: 'Smartwatch',
-    price: '$80',
+    price: 80,
     image: require('./images/bg1.jpg'),
+    description:
+      'Stay connected and active with this feature-packed smartwatch. Track your fitness goals, receive notifications, and make calls, all from your wrist. The stylish design and long-lasting battery make it the perfect companion for your busy lifestyle.',
   },
   {
     id: '9',
     name: 'Gaming Console',
-    price: '$300',
+    price: 300,
     image: require('./images/bg1.jpg'),
+    description:
+      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
   },
 ];
 
 const HomeScreen = (props: any) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const onSearchQueryChange = (query: string) => {
     setSearchQuery(query);
@@ -81,15 +114,104 @@ const HomeScreen = (props: any) => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const renderProductCard = ({item}: any) => (
-    <View style={styles.card}>
-      <TouchableOpacity style={styles.touchable} activeOpacity={0.7}>
-        <Image source={item.image} style={styles.image} />
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productPrice}>{item.price}</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const handleAddToCart = (item: Product) => {
+    setCartItems(prevCartItems => {
+      const existingItem = prevCartItems.find(
+        cartItem => cartItem.product.id === item.id,
+      );
+      if (existingItem) {
+        // Increase quantity if item is already in cart
+        return prevCartItems.map(cartItem =>
+          cartItem.product.id === item.id
+            ? {...cartItem, quantity: cartItem.quantity + 1}
+            : cartItem,
+        );
+      }
+      // Otherwise, add new item to cart
+      return [...prevCartItems, {product: item, quantity: 1}];
+    });
+  };
+
+  const handleIncreaseQuantity = (item: Product) => {
+    handleAddToCart(item); // Reuse the add function to handle increase
+  };
+
+  const handleDecreaseQuantity = (item: Product) => {
+    setCartItems(prevCartItems => {
+      const existingItem = prevCartItems.find(
+        cartItem => cartItem.product.id === item.id,
+      );
+      if (existingItem) {
+        if (existingItem.quantity > 1) {
+          // If quantity is greater than 1, just decrease it
+          return prevCartItems.map(cartItem =>
+            cartItem.product.id === item.id
+              ? {...cartItem, quantity: cartItem.quantity - 1}
+              : cartItem,
+          );
+        } else {
+          // If quantity is 1, remove it from the cart
+          return prevCartItems.filter(
+            cartItem => cartItem.product.id !== item.id,
+          );
+        }
+      }
+      return prevCartItems; // Return unchanged cart if the item wasn't found
+    });
+  };
+
+  const getCartItemQuantity = (productId: string) => {
+    const cartItem = cartItems.find(item => item.product.id === productId);
+    return cartItem ? cartItem.quantity : 0; // Return quantity or 0 if not found
+  };
+
+  const renderProductCard = ({item}: {item: Product}) => {
+    const quantity = getCartItemQuantity(item.id);
+    return (
+      <View style={styles.card}>
+        <TouchableOpacity
+          style={styles.touchable}
+          activeOpacity={0.7}
+          onPress={() =>
+            props.navigation.navigate('itemdetails', {
+              productDetails: item,
+              // addToCart: handleAddToCart, // Pass the function here
+              cartItems: cartItems, // Pass the cart items
+              setCartItems: setCartItems, // Pass the set function
+            })
+          }>
+          <Image source={item.image} style={styles.image} />
+          <Text style={styles.productName}>{item.name}</Text>
+          <Text style={styles.productPrice}>$ {item.price}</Text>
+        </TouchableOpacity>
+        <View style={styles.cartControls}>
+          {quantity > 0 ? (
+            <>
+              <TouchableOpacity
+                onPress={() => handleDecreaseQuantity(item)}
+                style={styles.quantityButton}>
+                <Text style={styles.cartQuantity}>-</Text>
+              </TouchableOpacity>
+              
+              <Text style={styles.cartQuantity}>{quantity}</Text>
+
+              <TouchableOpacity
+                onPress={() => handleIncreaseQuantity(item)}
+                style={styles.quantityButton}>
+                <Text style={styles.cartQuantity}>+</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <TouchableOpacity
+              onPress={() => handleAddToCart(item)}
+              style={styles.addToCartButton}>
+              <Text style={styles.addToCartText}>Add to Cart</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    );
+  };
 
   const renderEmptyList = () => (
     <View style={styles.emptyContainer}>
@@ -108,12 +230,11 @@ const HomeScreen = (props: any) => {
         <View style={styles.header}>
           <Text style={styles.title}>ShopX</Text>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('cartItems')}>
+            onPress={() => props.navigation.navigate('cartItems', {cartItems})}>
             <AntDesign name="shoppingcart" size={26} style={styles.cartIcon} />
           </TouchableOpacity>
         </View>
 
-        {/* Searchbar */}
         <Searchbar
           placeholder="Search"
           onChangeText={onSearchQueryChange}
@@ -141,7 +262,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '#f8f8f8',
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
   header: {
     flexDirection: 'row',
@@ -211,6 +332,35 @@ const styles = StyleSheet.create({
   },
   productPrice: {
     fontSize: 14,
-    color: '#4CAF50',
+    color: '#888',
+  },
+  cartControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center', // Center all items horizontally
+    marginTop: 10,
+  },
+  quantityButton: {
+    padding: 20,
+  },
+  cartQuantity: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+  },
+  addToCartButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#4CAF50',
+    borderRadius: 20,
+    elevation: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  addToCartText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
