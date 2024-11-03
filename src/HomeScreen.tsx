@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Searchbar} from 'react-native-paper';
+import { useCart } from './CartProvider';
 
 interface Product {
   id: string;
@@ -104,7 +105,7 @@ const products: Product[] = [
 
 const HomeScreen = (props: any) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { cartItems, setCartItems } = useCart();
 
   const onSearchQueryChange = (query: string) => {
     setSearchQuery(query);
