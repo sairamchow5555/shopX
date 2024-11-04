@@ -12,6 +12,7 @@ import {
 import {CartItem, useCart} from './CartProvider';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface CartItemsScreenProps {
   route: {
@@ -156,7 +157,14 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
 
       {/* Checkout Button */}
       {cartItems.length > 0 && (
-        <TouchableOpacity style={styles.checkoutButton}>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={() => props.navigation.navigate('checkout')}>
+          <MaterialIcons
+            name="shopping-cart-checkout"
+            size={23}
+            color="#ffffff"
+          />
           <Text style={styles.checkoutButtonText}>Checkout</Text>
         </TouchableOpacity>
       )}
@@ -315,6 +323,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingVertical: 15,
     alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
@@ -325,6 +335,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+    marginLeft: 8, // Space between icon and text
   },
   emptyContainer: {
     flex: 1,

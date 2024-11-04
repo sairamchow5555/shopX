@@ -12,6 +12,7 @@ import {CartContext} from './CartProvider';
 import {Snackbar} from 'react-native-paper'; // Import Snackbar
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type ItemDetailsScreenProps = {
   route: RouteProp<{params: {productDetails: any}}, 'params'>; // Define route type
@@ -83,6 +84,7 @@ const ItemDetailsScreen: React.FC<ItemDetailsScreenProps> = ({
         <TouchableOpacity
           style={styles.addToCartButton}
           onPress={handleAddToCart}>
+          <MaterialCommunityIcons name="cart-plus" size={23} color="#ffffff" />
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
 
@@ -189,6 +191,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingVertical: 15,
     alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
@@ -199,6 +203,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+    marginLeft: 8,
   },
 });
 
