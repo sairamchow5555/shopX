@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
   },
   snackbarContainer: {
     position: 'absolute',
-    bottom: 70, // Adjusted position to be above the button
-    left: 0,
-    right: 0,
+    bottom: 80, // Adjusted position to be above the button
+    left: 20,
+    right: 20,
     zIndex: 1, // Ensure it is above other components
   },
   snackbar: {
@@ -181,10 +181,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addToCartButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
     backgroundColor: '#FFA500',
-    paddingVertical: 14,
-    paddingHorizontal: 100,
-    borderRadius: 10,
+    borderRadius: 25,
+    paddingVertical: 15,
     alignItems: 'center',
     elevation: 5,
     shadowColor: '#000',
@@ -193,7 +196,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   addToCartText: {
-    color: '#fff',
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
