@@ -1,98 +1,174 @@
+import {Alert, Box, Button, Center, StatusBar, VStack} from 'native-base';
 import React, {useState} from 'react';
 import {
-  StyleSheet,
-  View,
   ImageBackground,
-  StatusBar,
+  Pressable,
+  StyleSheet,
   Text,
-  Image,
+  TextInput,
+  View,
 } from 'react-native';
-import {TextInput, Button, Snackbar} from 'react-native-paper';
+import Animated, {
+  BounceIn,
+  FadeIn,
+  FadeInLeft,
+  FlipInXUp,
+} from 'react-native-reanimated';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const LoginScreen = (props: any) => {
-  const bg1 = require('./images/bg1.jpg');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [username, setUserName] = useState<string>('demo');
+  const [password, setPassword] = useState<string>('demo');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  const handleLogin = async () => {
-    console.log(username, 'username');
-    console.log(password, 'password');
+  const logo = require('./images/logo1.png');
+  const bgImage = require('./images/bg3.jpg');
 
+  function AlertBox() {
+    return (
+      <Center>
+        <Animated.View entering={FadeIn.duration(400)}>
+          <VStack space={5} maxW="400">
+            <Alert w="100%" status="error" style={{borderRadius: 15}}>
+              <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+                <Alert.Icon size="5xl" />
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  _dark={{
+                    color: 'coolGray.800',
+                  }}>
+                  Wrong Credentials!
+                </Text>
+                <Box
+                  _text={{
+                    textAlign: 'center',
+                  }}
+                  _dark={{
+                    _text: {
+                      color: 'coolGray.600',
+                    },
+                  }}>
+                  Enter correct username and password
+                </Box>
+                <Button
+                  onPress={() => setShowAlert(false)}
+                  style={{marginTop: 20, backgroundColor: '#004282'}}>
+                  Okay
+                </Button>
+              </VStack>
+            </Alert>
+          </VStack>
+        </Animated.View>
+      </Center>
+    );
+  }
+
+  const handleLogin = () => {
+    setLoading(true);
+    // Check if the username or password fields are empty
+    if (!username || !password) {
+      setLoading(false);
+      setShowAlert(true);
+    }
+    // Validate credentials
     if (username === 'demo' && password === 'demo') {
+      setLoading(false);
+      setUserName('');
+      setPassword('');
       props.navigation.navigate('home');
     } else {
-      setErrorMessage('enter valid username and password');
-      setVisible(true);
+      setLoading(false);
+      setShowAlert(true); // Show alert for incorrect credentials
     }
   };
 
+  const toggleShowPassword = () => setShowPassword(!showPassword);
+
   return (
-    <ImageBackground source={bg1} style={styles.background}>
-      {' '}
+    <ImageBackground source={bgImage} style={styles.backgroundImage}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         backgroundColor="transparent"
         translucent={true}
       />
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <Text style={styles.title}>SHOPX</Text>
-
-          {/* Username input */}
-          <TextInput
-            label="Username"
-            value={username}
-            onChangeText={setUsername}
-            mode="outlined"
-            autoCapitalize="none"
-            textColor="black"
-            left={<TextInput.Icon icon={'account'} color="#4CAF50" />}
-            style={styles.input}
-          />
-
-          {/* Password input */}
-          <TextInput
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            mode="outlined"
-            autoCapitalize="none"
-            textColor="black"
-            left={<TextInput.Icon icon="lock" color="#4CAF50" />}
-            right={
-              <TextInput.Icon
-                onPress={() => setShowPassword(!showPassword)}
-                icon={showPassword ? 'eye' : 'eye-off'}
+      <SafeAreaView style={styles.container}>
+        {showAlert ? (
+          <Center flex={1} px="3">
+            <AlertBox />
+          </Center>
+        ) : (
+          <View style={styles.innerContainer}>
+            <View style={styles.formContainer}>
+              <Animated.Image
+                entering={FadeInLeft.duration(1000)
+                  .springify()
+                  .damping(10)
+                  .delay(500)}
+                source={logo}
+                style={styles.logo}
               />
-            }
-            style={styles.input}
-          />
-
-          {/* Login button */}
-          <Button mode="contained" onPress={handleLogin} style={styles.button}>
-            <Text>Login</Text>
-          </Button>
-        </View>
-
-        {/* Snackbar for displaying error messages */}
-        <Snackbar
-          visible={visible}
-          onDismiss={() => setVisible(false)}
-          action={{
-            label: 'Close',
-            onPress: () => {
-              setVisible(false);
-            },
-          }}
-          duration={Snackbar.DURATION_SHORT}
-          style={styles.snackbar}>
-          <Text style={{color: 'white'}}>{errorMessage}</Text>
-        </Snackbar>
-      </View>
+              <Animated.View
+                entering={BounceIn.duration(1000).delay(700)}
+                style={styles.inputView}>
+                <View style={styles.inputIcon}>
+                  <Text style={styles.icon}>👤</Text>
+                </View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Username"
+                  value={username}
+                  onChangeText={setUserName}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  placeholderTextColor="#aaaaaa"
+                />
+              </Animated.View>
+              <Animated.View
+                entering={FlipInXUp.duration(1000).delay(700)}
+                style={styles.inputView}>
+                <View style={styles.inputIcon}>
+                  <Text style={styles.icon}>🔑</Text>
+                </View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  placeholderTextColor="#aaaaaa"
+                />
+                <Pressable onPress={toggleShowPassword}>
+                  <Text style={styles.showPasswordButton}>
+                    {showPassword ? 'Hide' : 'Show'}
+                  </Text>
+                </Pressable>
+              </Animated.View>
+              <Animated.View
+                entering={FlipInXUp.duration(1000).delay(700)}
+                style={styles.buttonView}>
+                <Button
+                  style={styles.button}
+                  onPress={handleLogin}
+                  isLoading={loading}
+                  _loading={{
+                    bg: 'muted.100',
+                    _text: {color: 'white'},
+                  }}
+                  _spinner={{color: 'white'}}
+                  isLoadingText="Logging in"
+                  _text={{fontSize: 18, fontWeight: 'bold', color: '#FFA500'}}>
+                  LOGIN
+                </Button>
+              </Animated.View>
+            </View>
+          </View>
+        )}
+      </SafeAreaView>
     </ImageBackground>
   );
 };
@@ -100,53 +176,97 @@ const LoginScreen = (props: any) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
   container: {
+    flex: 1,
+    backgroundColor: '#f8f8f8',
+  },
+  innerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
-  card: {
-    width: '100%',
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 3,
+  formContainer: {
+    borderRadius: 20,
+    padding: 25,
+    width: '90%',
+    alignItems: 'center',
+    maxHeight: 500, // Set a max height to prevent it from growing
+    overflow: 'hidden', // This will hide anything that overflows
+    borderWidth: 2, // Set border width
+    borderColor: '#FFA500', // Orange border color
   },
   logo: {
-    width: '73%',
-    height: 80,
+    width: '80%', // Adjust this as needed
+    height: 250, // Increased height for a bigger logo
     resizeMode: 'contain',
-    marginBottom: 10,
-    alignSelf: 'center',
+    marginTop: -100,
+    marginBottom: -70,
   },
   title: {
-    fontSize: 36, // Increased size for more emphasis
-    fontWeight: '900', // Bold weight for more impact
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
     textAlign: 'center',
-    color: '#4CAF50', // Change color for uniqueness
-    letterSpacing: 2, // Add spacing for modern look
-    textShadowColor: '#aaa', // Shadow color
-    textShadowOffset: {width: 1, height: 1}, // Shadow offset
-    textShadowRadius: 2, // Shadow radius
+    marginBottom: 15,
+    color: '#ffffff',
+  },
+  inputView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    borderBottomWidth: 2, // Set the bottom border width
+    borderBottomColor: '#FFA500', // Orange bottom border color
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
+  icon: {
+    fontSize: 18,
+    color: '#ffffff',
   },
   input: {
-    marginBottom: 20,
-    backgroundColor: '#fff',
+    flex: 1,
+    height: 40,
+    color: '#000000', // Text color set to black
+  },
+  showPasswordButton: {
+    color: '#000',
+    fontSize: 16,
+    marginLeft: 5,
+  },
+  buttonView: {
+    width: '100%',
+    alignItems: 'center',
   },
   button: {
-    marginTop: 10,
+    height: 50,
+    width: '100%',
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#FFA500',
+    backgroundColor: '#f8f8f8',
   },
-  snackbar: {
-    backgroundColor: '#d32f2f', // Red background to indicate error
+  alertBox: {
+    borderRadius: 15,
+    backgroundColor: '#d9534f',
+  },
+  alertTextTitle: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  alertTextBox: {
+    textAlign: 'center',
+    color: '#f5f5f5',
+  },
+  alertButton: {
+    marginTop: 15,
+    backgroundColor: '#004282',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
 });
