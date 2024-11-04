@@ -10,6 +10,7 @@ import {
   Modal,
 } from 'react-native';
 import {CartItem, useCart} from './CartProvider';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 interface CartItemsScreenProps {
@@ -65,6 +66,11 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
     setModalVisible(false);
   };
 
+  const handleDelete = (index: number) => {
+    setItemToDelete(index);
+    setModalVisible(true);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -78,6 +84,11 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
           <ScrollView style={styles.scrollView}>
             {cartItems.map((item, index) => (
               <View key={index} style={styles.itemContainer}>
+                <TouchableOpacity
+                  style={styles.deleteButtonTop}
+                  onPress={() => handleDelete(index)}>
+                  <FontAwesome5 name="times" size={20} color="#fff" />
+                </TouchableOpacity>
                 <Image
                   source={
                     typeof item.product.image === 'string'
@@ -185,7 +196,7 @@ export default CartItemsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 12,
     backgroundColor: '#f9f9f9',
   },
   contentContainer: {
@@ -201,12 +212,26 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#fff',
     borderRadius: 8,
-    marginBottom: 10,
+    marginTop: 13,
+    marginBottom: 5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
+    position: 'relative',
+  },
+  deleteButtonTop: {
+    position: 'absolute',
+    top: -13,
+    right: -0,
+    zIndex: 1,
+    backgroundColor: 'red',
+    width: 30, // Width of the button
+    height: 30, // Height of the button
+    borderRadius: 15, // Make it circular
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   itemImage: {
     width: 150,
