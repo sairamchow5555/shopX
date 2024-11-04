@@ -268,7 +268,7 @@ const HomeScreen = (props: any) => {
           translucent={true}
         />
         <View style={styles.header}>
-          <Text style={styles.title}>ShopX</Text>
+          <Text style={styles.title}>Products</Text>
           <TouchableOpacity
             onPress={() => props.navigation.navigate('cartItems', {cartItems})}>
             <View style={styles.cartIconContainer}>
@@ -324,10 +324,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
+    marginLeft: 20,
   },
   cartIconContainer: {
     position: 'relative',
-    marginRight: 10,
+    // marginRight: 10,
   },
   cartIcon: {
     backgroundColor: '#FFA500',
