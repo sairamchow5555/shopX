@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addToCartButton: {
-    backgroundColor: '#FFA500', // Green color similar to Checkout button
+    backgroundColor: '#FFA500',
     paddingVertical: 14,
     paddingHorizontal: 100,
     borderRadius: 10,
