@@ -137,14 +137,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '90%',
+    width: '100%', // Full width to align title and price correctly
     marginBottom: 12,
+    paddingHorizontal: 16, // Add padding for consistency
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#222',
-    flex: 1,
+    flexShrink: 1, // Prevents overflow by shrinking title if necessary
   },
   price: {
     fontSize: 20,
@@ -152,7 +153,8 @@ const styles = StyleSheet.create({
     color: '#007bff',
   },
   descriptionContainer: {
-    width: '90%',
+    width: '100%',
+    paddingHorizontal: 16, // Ensures left and right padding
     marginTop: 10,
   },
   pointItem: {
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: '#555',
+    flexShrink: 1, // Prevents overflow of the pointText
   },
   bottomContainer: {
     width: '100%',
