@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Searchbar} from 'react-native-paper';
-import { useCart } from './CartProvider';
+import {useCart} from './CartProvider';
 
 interface Product {
   id: string;
@@ -31,73 +31,113 @@ interface CartItem {
 const products: Product[] = [
   {
     id: '1',
-    name: 'Mouse',
-    price: 10,
-    image: require('./images/bg1.jpg'),
+    name: 'Madina Minyak Goreng Sawit',
+    price: 29,
+    image: require('./images/avena.jpg'),
     description:
       'Elevate your computing experience with this precision mouse. Its ergonomic design ensures comfort during long hours of work or play. The high-resolution sensor delivers accurate cursor control, while the customizable buttons offer efficient workflow.',
   },
   {
     id: '2',
-    name: 'Earbuds',
-    price: 20,
-    image: require('./images/bg1.jpg'),
+    name: 'Fresh Day Soap',
+    price: 19,
+    image: require('./images/freshday_soap.jpg'),
     description:
       'Immerse yourself in your favorite music or podcasts with these high-quality earbuds. The crystal-clear sound and noise-cancellation technology provide an exceptional listening experience. The ergonomic design ensures a comfortable fit, even during extended use.',
   },
   {
     id: '3',
-    name: 'Charger',
-    price: 30,
-    image: require('./images/bg1.jpg'),
+    name: 'Juliet Shampoo',
+    price: 39,
+    image: require('./images/juliet_shampoo.jpg'),
     description:
       'Power up your devices quickly and efficiently with this fast-charging charger. Its advanced technology delivers rapid charging speeds, saving you time and hassle. The compact and portable design makes it perfect for on-the-go use.',
   },
   {
     id: '4',
-    name: 'Stylish Sunglasses',
-    price: 40,
-    image: require('./images/bg1.jpg'),
+    name: 'Avena and Madina',
+    price: 59,
+    image: require('./images/madina_avena.jpg'),
     description:
       'Protect your eyes from harmful UV rays in style with these fashionable sunglasses. The polarized lenses reduce glare and enhance visual clarity, while the sleek frame adds a touch of sophistication to any outfit.',
   },
   {
     id: '5',
-    name: 'Comfortable Sneakers',
-    price: 50,
-    image: require('./images/bg1.jpg'),
+    name: 'Madina Oil',
+    price: 12,
+    image: require('./images/madina_oil.jpg'),
     description:
       'Experience ultimate comfort and support with these stylish sneakers. The breathable mesh upper keeps your feet cool and dry, while the cushioned insole provides all-day comfort. Perfect for casual wear or athletic activities.',
   },
   {
     id: '6',
-    name: 'Elegant Dress',
-    price: 60,
-    image: require('./images/bg1.jpg'),
+    name: 'Meditwist Handwash',
+    price: 11,
+    image: require('./images/meditwist_handwash.jpg'),
     description:
       'Turn heads with this elegant dress, designed to flatter your figure and enhance your style. The flowing fabric and intricate details create a timeless look, making it perfect for any special occasion.',
   },
   {
     id: '7',
-    name: 'Modern Laptop',
-    price: 700,
-    image: require('./images/bg1.jpg'),
+    name: 'Milgro Familia Milk Powder',
+    price: 71,
+    image: require('./images/milgro_familia_milk_powder.jpg'),
     description:
       'Experience ultimate performance and portability with this powerful laptop. The sleek design and lightweight build make it easy to carry, while the high-resolution display and fast processor deliver a seamless user experience.',
   },
   {
     id: '8',
-    name: 'Smartwatch',
-    price: 80,
-    image: require('./images/bg1.jpg'),
+    name: 'Milgro Full Cream Milk Powder',
+    price: 18,
+    image: require('./images/milgro_instant_cream_milk_powder.jpg'),
     description:
       'Stay connected and active with this feature-packed smartwatch. Track your fitness goals, receive notifications, and make calls, all from your wrist. The stylish design and long-lasting battery make it the perfect companion for your busy lifestyle.',
   },
   {
     id: '9',
-    name: 'Gaming Console',
-    price: 300,
-    image: require('./images/bg1.jpg'),
+    name: 'Saba Floral Detergent',
+    price: 33,
+    image: require('./images/saba_floral_detergent.jpg'),
+    description:
+      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+  },
+  {
+    id: '10',
+    name: 'Saba Multipurpose Liquid Detergent',
+    price: 46,
+    image: require('./images/saba_multipurpose_liquid_detergent.jpg'),
+    description:
+      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+  },
+  {
+    id: '11',
+    name: 'Soft Silk Beauty Soap',
+    price: 17,
+    image: require('./images/softsilk_beauty_soap.jpg'),
+    description:
+      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+  },
+  {
+    id: '12',
+    name: 'Milgro Lait Concentre Sucre',
+    price: 15,
+    image: require('./images/Sweetened_condensed_filled_milk.jpg'),
+    description:
+      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+  },
+  {
+    id: '13',
+    name: 'Zenta Detergent Powder',
+    price: 11,
+    image: require('./images/zenta_detergent_powder.jpg'),
+    description:
+      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+  },
+  {
+    id: '14',
+    name: 'Zenta Multipurpose Soap',
+    price: 13,
+    image: require('./images/zenta_multipurpose_soap.jpg'),
     description:
       'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
   },
@@ -105,7 +145,7 @@ const products: Product[] = [
 
 const HomeScreen = (props: any) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { cartItems, setCartItems } = useCart();
+  const {cartItems, setCartItems} = useCart();
 
   const onSearchQueryChange = (query: string) => {
     setSearchQuery(query);
@@ -193,7 +233,7 @@ const HomeScreen = (props: any) => {
                 style={styles.quantityButton}>
                 <Text style={styles.cartQuantity}>-</Text>
               </TouchableOpacity>
-              
+
               <Text style={styles.cartQuantity}>{quantity}</Text>
 
               <TouchableOpacity
