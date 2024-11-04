@@ -339,15 +339,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: -8,
     top: -8,
-    backgroundColor: 'red',
+    backgroundColor: '#fff',
     borderRadius: 10,
     paddingVertical: 2,
     paddingHorizontal: 6,
   },
   badgeText: {
-    color: 'white',
+    color: '#FFA500',
     fontWeight: 'bold',
     fontSize: 12,
+    // backgroundColor: '#FFA500',
   },
   searchbar: {
     marginBottom: 10,
