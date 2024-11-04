@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -6,134 +6,92 @@ import {
   Image,
   StyleSheet,
   StatusBar,
+  ScrollView,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {CartContext, CartItem} from './CartProvider';
+import {CartContext} from './CartProvider';
+import {Snackbar} from 'react-native-paper'; // Import Snackbar
 
-const getCartItemQuantity = (cartItems: CartItem[], productId: string) => {
+const getCartItemQuantity = (cartItems, productId) => {
   const item = cartItems.find(item => item.product.id === productId);
   return item ? item.quantity : 0;
 };
 
-const ItemDetailsScreen: React.FC<{route: any; navigation: any}> = ({
-  route,
-  navigation,
-}) => {
-  const {productDetails} = route.params; // Get product details from route params
-  const {cartItems, setCartItems} = useContext(CartContext); // Use CartContext
+const ItemDetailsScreen = ({route}) => {
+  const {productDetails} = route.params;
+  const {cartItems, setCartItems} = useContext(CartContext);
 
-  const [quantity, setQuantity] = useState(
-    getCartItemQuantity(cartItems, productDetails.id),
-  );
-
-  useEffect(() => {
-    setQuantity(getCartItemQuantity(cartItems, productDetails.id));
-  }, [cartItems]);
+  const [snackbarVisible, setSnackbarVisible] = useState(false); // Snackbar state
 
   const handleAddToCart = () => {
-    setCartItems(prev => {
-      const existingItem = prev.find(
-        item => item.product.id === productDetails.id,
-      );
-      if (existingItem) {
-        return prev.map(item =>
-          item.product.id === productDetails.id
-            ? {...item, quantity: item.quantity + 1}
-            : item,
-        );
-      }
-      return [...prev, {product: productDetails, quantity: 1}];
-    });
-    setQuantity(quantity + 1);
-    const updatedCartItems = [
-      ...cartItems,
-      {product: productDetails, quantity: 1},
-    ];
-    navigation.navigate('cartItems', {cartItems: updatedCartItems});
+    const existingItem = cartItems.find(
+      item => item.product.id === productDetails.id,
+    );
+    if (existingItem) {
+      setSnackbarVisible(true); // Show Snackbar if the item is already in the cart
+    } else {
+      setCartItems(prev => [...prev, {product: productDetails, quantity: 1}]);
+    }
   };
 
-  const handleIncreaseQuantity = () => {
-    setCartItems(prev => {
-      const updatedItems = prev.map(item =>
-        item.product.id === productDetails.id
-          ? {...item, quantity: item.quantity + 1}
-          : item,
-      );
-      setQuantity(getCartItemQuantity(updatedItems, productDetails.id));
-      return updatedItems;
-    });
+  const onDismissSnackbar = () => {
+    setSnackbarVisible(false);
   };
 
-  const handleDecreaseQuantity = () => {
-    setCartItems(prev => {
-      const existingItem = prev.find(
-        item => item.product.id === productDetails.id,
-      );
-      if (existingItem) {
-        if (existingItem.quantity > 1) {
-          const updatedItems = prev.map(item =>
-            item.product.id === productDetails.id
-              ? {...item, quantity: item.quantity - 1}
-              : item,
-          );
-          setQuantity(getCartItemQuantity(updatedItems, productDetails.id));
-          return updatedItems;
-        }
-        const updatedItems = prev.filter(
-          item => item.product.id !== productDetails.id,
-        );
-        setQuantity(0);
-        return updatedItems;
-      }
-      return prev;
-    });
-  };
-
-  const handleNavigateToCart = () => {
-    navigation.navigate('cartItems', {cartItems});
-  };
+  const descriptionPoints = productDetails.description
+    ? productDetails.description
+        .split(/[.\n]/)
+        .filter(point => point.trim() !== '')
+    : [];
 
   return (
     <View style={styles.container}>
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
-        translucent={true}
+        translucent
       />
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="back" size={26} style={styles.cartIcon} />
-        </TouchableOpacity>
-        <Text style={styles.main}>Product Details</Text>
-        <TouchableOpacity onPress={handleNavigateToCart}>
-          <AntDesign name="shoppingcart" size={26} style={styles.cartIcon} />
-        </TouchableOpacity>
-      </View>
 
-      <Image source={productDetails.image} style={styles.image} />
-      <View style={styles.titlePriceContainer}>
-        <Text style={styles.title}>{productDetails.name}</Text>
-        <Text style={styles.price}>$ {productDetails.price.toFixed(2)}</Text>
-      </View>
-      <Text style={styles.description}>{productDetails.description}</Text>
-
-      {quantity > 0 ? (
-        <View style={styles.quantityContainer}>
-          <TouchableOpacity onPress={handleDecreaseQuantity}>
-            <Text style={styles.quantityButton}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.quantityText}>{quantity}</Text>
-          <TouchableOpacity onPress={handleIncreaseQuantity}>
-            <Text style={styles.quantityButton}>+</Text>
-          </TouchableOpacity>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Image source={productDetails.image} style={styles.image} />
+        <View style={styles.titlePriceContainer}>
+          <Text style={styles.title}>{productDetails.name}</Text>
+          <Text style={styles.price}>$ {productDetails.price.toFixed(2)}</Text>
         </View>
-      ) : (
+
+        <View style={styles.descriptionContainer}>
+          {descriptionPoints.map((point, index) => (
+            <View key={index} style={styles.pointItem}>
+              <Text style={styles.bullet}>{'\u2192'}</Text>
+              <Text style={styles.pointText}>{point.trim()}</Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+
+      <View style={styles.bottomContainer}>
         <TouchableOpacity
           style={styles.addToCartButton}
           onPress={handleAddToCart}>
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
-      )}
+
+        {/* Snackbar Container */}
+        <View style={styles.snackbarContainer}>
+          <Snackbar
+            visible={snackbarVisible}
+            onDismiss={onDismissSnackbar}
+            duration={2000} // Snackbar visibility duration
+            style={styles.snackbar} // Custom style for Snackbar
+            action={{
+              label: 'OK',
+              onPress: () => {
+                onDismissSnackbar();
+              },
+            }}>
+            This product is already in your cart!
+          </Snackbar>
+        </View>
+      </View>
     </View>
   );
 };
@@ -141,74 +99,84 @@ const ItemDetailsScreen: React.FC<{route: any; navigation: any}> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8f8f8',
+  },
+  snackbarContainer: {
+    position: 'absolute',
+    bottom: 70, // Adjusted position to be above the button
+    left: 0,
+    right: 0,
+    zIndex: 1, // Ensure it is above other components
+  },
+  snackbar: {
+    backgroundColor: '#323232', // Custom background color
+  },
+  scrollContainer: {
     padding: 16,
     alignItems: 'center',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  main: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  cartIcon: {
-    backgroundColor: '#222222',
-    borderRadius: 8,
-    padding: 7,
-    color: 'white',
-  },
   image: {
-    width: '90%',
-    height: 200,
-    borderRadius: 15,
-    marginBottom: 16,
+    width: '100%',
+    height: 250,
+    borderRadius: 10,
+    marginVertical: 10,
+    resizeMode: 'cover',
   },
   titlePriceContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '90%', // Full width
-    marginBottom: 8,
+    alignItems: 'center',
+    width: '90%',
+    marginBottom: 12,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 8,
-    textAlign: 'left',
-    width: '90%',
+    color: '#222',
+    flex: 1,
   },
   price: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    fontWeight: '600',
+    color: '#007bff',
   },
-  quantityContainer: {
+  descriptionContainer: {
+    width: '90%',
+    marginTop: 10,
+  },
+  pointItem: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 6,
+  },
+  bullet: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginRight: 8,
+    color: '#555',
+  },
+  pointText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#555',
+  },
+  bottomContainer: {
+    width: '100%',
+    padding: 16,
+    backgroundColor: '#f8f8f8',
     alignItems: 'center',
-    marginTop: 16,
-  },
-  quantityButton: {
-    fontSize: 24,
-    marginHorizontal: 8,
-  },
-  quantityText: {
-    fontSize: 18,
-    marginHorizontal: 8,
   },
   addToCartButton: {
-    backgroundColor: '#28a745',
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 16,
+    backgroundColor: '#4CAF50', // Green color similar to Checkout button
+    paddingVertical: 14,
+    paddingHorizontal: 100,
+    borderRadius: 10,
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
   addToCartText: {
     color: '#fff',
