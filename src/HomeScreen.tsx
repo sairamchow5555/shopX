@@ -260,6 +260,10 @@ const HomeScreen = (props: any) => {
     </View>
   );
 
+  const getTotalItemsInCart = () => {
+    return cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -272,7 +276,18 @@ const HomeScreen = (props: any) => {
           <Text style={styles.title}>ShopX</Text>
           <TouchableOpacity
             onPress={() => props.navigation.navigate('cartItems', {cartItems})}>
-            <MaterialIcons name="shopping-cart" size={26} style={styles.cartIcon} />
+            <View style={styles.cartIconContainer}>
+              <MaterialIcons
+                name="shopping-cart"
+                size={26}
+                style={styles.cartIcon}
+              />
+              {getTotalItemsInCart() > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{getTotalItemsInCart()}</Text>
+                </View>
+              )}
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -318,11 +333,29 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  cartIconContainer: {
+    position: 'relative',
+    marginRight: 10,
+  },
   cartIcon: {
     backgroundColor: '#FFA500',
     borderRadius: 8,
     padding: 7,
     color: 'white',
+  },
+  badge: {
+    position: 'absolute',
+    right: -8,
+    top: -8,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    paddingVertical: 2,
+    paddingHorizontal: 6,
+  },
+  badgeText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   searchbar: {
     marginBottom: 10,
@@ -393,7 +426,7 @@ const styles = StyleSheet.create({
   addToCartButton: {
     paddingVertical: 10,
     paddingHorizontal: 15,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FFA500',
     borderRadius: 20,
     elevation: 2,
     alignItems: 'center',

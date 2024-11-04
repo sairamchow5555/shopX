@@ -1,3 +1,4 @@
+// App.js
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -5,12 +6,32 @@ import LoginScreen from './src/LoginScreen';
 import HomeScreen from './src/HomeScreen';
 import CartItemsScreen from './src/CartItemsScreen';
 import ItemDetailsScreen from './src/ItemDetailsScreen';
-import {CartProvider} from './src/CartProvider';
+import {CartProvider, useCart} from './src/CartProvider';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
 const Stack = createNativeStackNavigator();
+
+const CartIcon = (props: any) => {
+  const {cartItems} = useCart();
+  const itemCount = cartItems.length;
+
+  return (
+    <TouchableOpacity
+      onPress={() => props.navigation.navigate('CartItems')}
+      style={styles.iconContainer}>
+      <View style={styles.cartIconContainer}>
+        <MaterialIcons name="shopping-cart" size={24} color="#ffffff" />
+        {itemCount > 0 && (
+          <View style={styles.cartCountContainer}>
+            <Text style={styles.cartCountText}>{itemCount}</Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const App = () => {
   return (
@@ -34,33 +55,20 @@ const App = () => {
               title: 'PRODUCT DETAILS',
               headerTitleAlign: 'center',
               headerStyle: {
-                backgroundColor: '#FFA500', // Customize background color
+                backgroundColor: '#FFA500',
               },
               headerTitleStyle: {
-                color: '#ffffff', // Set title color to white
+                color: '#ffffff',
               },
-              headerTintColor: '#ffffff', // Set back button color to white
+              headerTintColor: '#ffffff',
               headerLeft: () => (
                 <TouchableOpacity
                   onPress={() => navigation.goBack()}
                   style={styles.iconContainer}>
-                  <Ionicons
-                    name="chevron-back" // Back icon
-                    size={25}
-                    color="#ffffff"
-                    style={styles.icon}
-                  />
+                  <Ionicons name="chevron-back" size={25} color="#ffffff" />
                 </TouchableOpacity>
               ),
-              headerRight: () => (
-                <MaterialIcons
-                  name="shopping-cart" // Cart icon
-                  size={24}
-                  color="#ffffff" // Icon color to match header
-                  onPress={() => navigation.navigate('cartItems')}
-                  style={{marginRight: 15}} // Add padding for alignment
-                />
-              ),
+              headerRight: () => <CartIcon navigation={navigation} />, // Use CartIcon here
             })}
           />
           <Stack.Screen
@@ -68,19 +76,14 @@ const App = () => {
             component={CartItemsScreen}
             options={({navigation}) => ({
               headerStyle: {
-                backgroundColor: '#FFA500', // Choose your preferred background color
+                backgroundColor: '#FFA500',
               },
-              headerTintColor: '#ffffff', // Set back button color to white
+              headerTintColor: '#ffffff',
               headerLeft: () => (
                 <TouchableOpacity
                   onPress={() => navigation.goBack()}
                   style={styles.iconContainer}>
-                  <Ionicons
-                    name="chevron-back" // Back icon
-                    size={25}
-                    color="#ffffff"
-                    style={styles.icon}
-                  />
+                  <Ionicons name="chevron-back" size={25} color="#ffffff" />
                 </TouchableOpacity>
               ),
               headerTitle: () => (
@@ -89,13 +92,12 @@ const App = () => {
                     name="shopping-cart"
                     size={25}
                     color="#ffffff"
-                    style={styles.icon}
                   />
                   <Text style={styles.headerTitleText}>SimiCart</Text>
                 </View>
               ),
-              headerTitleAlign: 'center', // Center the title
-              headerBackVisible: false, // Disable default back button
+              headerTitleAlign: 'center',
+              headerBackVisible: false,
             })}
           />
         </Stack.Navigator>
@@ -104,25 +106,39 @@ const App = () => {
   );
 };
 
-export default App;
-
 const styles = StyleSheet.create({
-  icon: {
-    marginHorizontal: 0, // Add some margin for spacing between icons
-  },
   iconContainer: {
-    padding: 10, // Padding for better touch feedback
-    flexDirection: 'row', // Ensures icon is in line with the title
-    alignItems: 'center', // Centers the icon vertically with the text
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cartIconContainer: {
+    position: 'relative',
   },
   headerTitleContainer: {
-    flexDirection: 'row', // Align title and cart icon in a row
-    alignItems: 'center', // Center vertically
-    justifyContent: 'center', // Center horizontally
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerTitleText: {
     color: '#ffffff',
-    fontSize: 20, // Adjust font size as needed
+    fontSize: 20,
     fontWeight: 'bold',
   },
+  cartCountContainer: {
+    position: 'absolute',
+    right: -6,
+    top: -6,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  cartCountText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
 });
+
+export default App;
