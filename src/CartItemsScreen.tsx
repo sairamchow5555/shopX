@@ -222,16 +222,16 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   quantityButton: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ddd',
+    backgroundColor: '#FFA500',
     borderRadius: 5,
   },
   quantityButtonText: {
-    fontSize: 18,
-    color: '#333',
+    fontSize: 14,
+    color: '#fff',
   },
   quantityText: {
     marginHorizontal: 10,
