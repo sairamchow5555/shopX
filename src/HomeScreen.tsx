@@ -4,11 +4,11 @@ import {
   Text,
   View,
   Image,
-  FlatList,
   StatusBar,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Searchbar} from 'react-native-paper';
@@ -206,25 +206,20 @@ const HomeScreen = (props: any) => {
     return cartItem ? cartItem.quantity : 0; // Return quantity or 0 if not found
   };
 
-  const renderProductCard = ({item}: {item: Product}) => {
+  const renderProductRow = (item: Product) => {
     const quantity = getCartItemQuantity(item.id);
     return (
-      <View style={styles.card}>
-        <TouchableOpacity
-          style={styles.touchable}
-          activeOpacity={0.7}
-          onPress={() =>
-            props.navigation.navigate('itemdetails', {
-              productDetails: item,
-              // addToCart: handleAddToCart, // Pass the function here
-              cartItems: cartItems, // Pass the cart items
-              setCartItems: setCartItems, // Pass the set function
-            })
-          }>
-          <Image source={item.image} style={styles.image} />
-          <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.productPrice}>$ {item.price}</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate('itemdetails', {productDetails: item})
+        }
+        style={styles.row}
+        key={item.id}>
+        <Image source={item.image} style={styles.rowImage} />
+        <View style={styles.rowDetails}>
+          <Text style={styles.rowProductName}>{item.name}</Text>
+          <Text style={styles.rowProductPrice}>$ {item.price}</Text>
+        </View>
         <View style={styles.cartControls}>
           {quantity > 0 ? (
             <>
@@ -250,7 +245,7 @@ const HomeScreen = (props: any) => {
             </TouchableOpacity>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -298,20 +293,17 @@ const HomeScreen = (props: any) => {
           style={styles.searchbar}
         />
 
-        <FlatList
-          data={filteredProducts}
-          renderItem={renderProductCard}
-          keyExtractor={item => item.id}
-          numColumns={2} // Display cards in two columns
-          contentContainerStyle={styles.list}
-          ListEmptyComponent={renderEmptyList} // Use ListEmptyComponent here
-        />
+        <View style={styles.table}>
+          <ScrollView>
+            {filteredProducts.length > 0
+              ? filteredProducts.map(renderProductRow)
+              : renderEmptyList()}
+          </ScrollView>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -340,7 +332,7 @@ const styles = StyleSheet.create({
   cartIcon: {
     backgroundColor: '#FFA500',
     borderRadius: 8,
-    padding: 7,
+    padding: 3,
     color: 'white',
   },
   badge: {
@@ -372,60 +364,56 @@ const styles = StyleSheet.create({
     color: '#555',
     marginTop: 20,
   },
-  list: {
-    justifyContent: 'center',
-  },
-  card: {
+  table: {
     flex: 1,
-    margin: 10,
-    padding: 10,
-    borderRadius: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#fff',
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 8,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    alignItems: 'center',
   },
-  touchable: {
-    width: '100%',
-    alignItems: 'center',
+  rowImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 5,
+    marginRight: 10,
   },
-  image: {
-    width: '100%',
-    height: 120,
-    borderRadius: 10,
-    resizeMode: 'cover',
+  rowDetails: {
+    flex: 1,
   },
-  productName: {
+  rowProductName: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginVertical: 5,
-    textAlign: 'center',
   },
-  productPrice: {
+  rowProductPrice: {
     fontSize: 14,
     color: '#888',
   },
   cartControls: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center', // Center all items horizontally
-    marginTop: 10,
   },
   quantityButton: {
-    padding: 20,
+    padding: 10,
   },
   cartQuantity: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'center',
+    marginHorizontal: 5,
   },
   addToCartButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     backgroundColor: '#FFA500',
     borderRadius: 20,
     elevation: 2,
@@ -435,6 +423,9 @@ const styles = StyleSheet.create({
   },
   addToCartText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 12,
+    fontWeight: '600',
   },
 });
+
+export default HomeScreen;
