@@ -10,6 +10,7 @@ import {CartProvider, useCart} from './src/CartProvider';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import CheckOutScreen from './src/CheckOutScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +54,7 @@ const App = () => {
               name="itemdetails"
               component={ItemDetailsScreen}
               options={({navigation}) => ({
-                title: 'PRODUCT DETAILS',
+                title: 'Product Details',
                 headerTitleAlign: 'center',
                 headerStyle: {
                   backgroundColor: '#FFA500',
@@ -101,6 +102,35 @@ const App = () => {
                 headerBackVisible: false,
               })}
             />
+            <Stack.Screen
+              name="checkout"
+              component={CheckOutScreen}
+              options={({navigation}) => ({
+                headerStyle: {
+                  backgroundColor: '#FFA500',
+                },
+                headerTintColor: '#ffffff',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.iconContainer}>
+                    <Ionicons name="chevron-back" size={25} color="#ffffff" />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <View style={styles.headerTitleContainer}>
+                    {/* <MaterialIcons
+                      name="shopping-cart"
+                      size={25}
+                      color="#ffffff"
+                    /> */}
+                    <Text style={styles.headerTitleText}>Checkout</Text>
+                  </View>
+                ),
+                headerTitleAlign: 'center',
+                headerBackVisible: false,
+              })}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </CartProvider>
@@ -126,6 +156,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 8,
   },
   cartCountContainer: {
     position: 'absolute',
