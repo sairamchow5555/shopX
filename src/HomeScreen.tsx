@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Searchbar} from 'react-native-paper';
 import {useCart} from './CartProvider';
 
@@ -272,7 +272,7 @@ const HomeScreen = (props: any) => {
           <Text style={styles.title}>ShopX</Text>
           <TouchableOpacity
             onPress={() => props.navigation.navigate('cartItems', {cartItems})}>
-            <AntDesign name="shoppingcart" size={26} style={styles.cartIcon} />
+            <MaterialIcons name="shopping-cart" size={26} style={styles.cartIcon} />
           </TouchableOpacity>
         </View>
 
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cartIcon: {
-    backgroundColor: '#222222',
+    backgroundColor: '#FFA500',
     borderRadius: 8,
     padding: 7,
     color: 'white',
