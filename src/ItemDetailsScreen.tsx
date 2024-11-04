@@ -10,13 +10,23 @@ import {
 } from 'react-native';
 import {CartContext} from './CartProvider';
 import {Snackbar} from 'react-native-paper'; // Import Snackbar
+import {RouteProp} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
+type ItemDetailsScreenProps = {
+  route: RouteProp<{params: {productDetails: any}}, 'params'>; // Define route type
+  navigation: StackNavigationProp<any>; // Define navigation type
+};
 
 const getCartItemQuantity = (cartItems, productId) => {
   const item = cartItems.find(item => item.product.id === productId);
   return item ? item.quantity : 0;
 };
 
-const ItemDetailsScreen = ({route}) => {
+const ItemDetailsScreen: React.FC<ItemDetailsScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const {productDetails} = route.params;
   const {cartItems, setCartItems} = useContext(CartContext);
 
@@ -30,6 +40,7 @@ const ItemDetailsScreen = ({route}) => {
       setSnackbarVisible(true); // Show Snackbar if the item is already in the cart
     } else {
       setCartItems(prev => [...prev, {product: productDetails, quantity: 1}]);
+      navigation.navigate('cartItems');
     }
   };
 
@@ -167,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addToCartButton: {
-    backgroundColor: '#4CAF50', // Green color similar to Checkout button
+    backgroundColor: '#FFA500', // Green color similar to Checkout button
     paddingVertical: 14,
     paddingHorizontal: 100,
     borderRadius: 10,
