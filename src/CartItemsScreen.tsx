@@ -87,7 +87,7 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
                 <TouchableOpacity
                   style={styles.deleteButtonTop}
                   onPress={() => handleDelete(index)}>
-                  <FontAwesome5 name="times" size={20} color="#fff" />
+                  <FontAwesome5 name="times" size={16} color="#fff" />
                 </TouchableOpacity>
                 <Image
                   source={
@@ -223,12 +223,12 @@ const styles = StyleSheet.create({
   },
   deleteButtonTop: {
     position: 'absolute',
-    top: -13,
-    right: -0,
+    top: -10,
+    right: 0,
     zIndex: 1,
-    backgroundColor: 'red',
-    width: 30, // Width of the button
-    height: 30, // Height of the button
+    backgroundColor: '#FFA500',
+    width: 22, // Width of the button
+    height: 22, // Height of the button
     borderRadius: 15, // Make it circular
     justifyContent: 'center',
     alignItems: 'center',
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 8,
-    marginTop: 10,
+    marginVertical: 10,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#aaa',
   },
   deleteButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#FFA500',
   },
   modalButtonText: {
     color: 'white',
