@@ -10,6 +10,7 @@ import {
   Modal,
 } from 'react-native';
 import {CartItem, useCart} from './CartProvider';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 interface CartItemsScreenProps {
   route: {
@@ -131,7 +132,12 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
         </View>
       ) : (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyCartText}>Your cart is empty.</Text>
+          <TouchableOpacity
+            style={{flexDirection: 'column', alignItems: 'center'}}
+            onPress={() => props.navigation.navigate('home')}>
+            <FontAwesome6 name="cart-plus" size={40} color="#FFA500" />
+            <Text style={styles.emptyCartText}>your cart is empty.</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -303,7 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#555',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   modalBackground: {
     flex: 1,
