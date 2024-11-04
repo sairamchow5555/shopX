@@ -218,7 +218,7 @@ const HomeScreen = (props: any) => {
         <Image source={item.image} style={styles.rowImage} />
         <View style={styles.rowDetails}>
           <Text style={styles.rowProductName}>{item.name}</Text>
-          <Text style={styles.rowProductPrice}>$ {item.price}</Text>
+          <Text style={styles.rowProductPrice}>RM {item.price}</Text>
         </View>
         <View style={styles.cartControls}>
           {quantity > 0 ? (

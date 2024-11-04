@@ -104,12 +104,12 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
                   {/* Displaying individual price, quantity, and subtotal */}
                   <View style={styles.itemPriceContainer}>
                     <Text style={styles.itemPrice}>
-                      ${item.product.price.toFixed(2)}
+                      RM {item.product.price.toFixed(2)}
                       {'   '}
                       Each
                     </Text>
                     <Text style={styles.itemPrice}>
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                      RM {(item.product.price * item.quantity).toFixed(2)}
                       {'   '}
                       Subtotal
                     </Text>
@@ -125,7 +125,9 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
               </View>
               <View style={styles.totalRow}>
                 <Text style={styles.totalLabel}>Total Amount:</Text>
-                <Text style={styles.totalValue}>${totalPrice.toFixed(2)}</Text>
+                <Text style={styles.totalValue}>
+                  RM {totalPrice.toFixed(2)}
+                </Text>
               </View>
             </View>
           </ScrollView>

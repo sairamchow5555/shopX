@@ -66,7 +66,7 @@ const ItemDetailsScreen: React.FC<ItemDetailsScreenProps> = ({
         <Image source={productDetails.image} style={styles.image} />
         <View style={styles.titlePriceContainer}>
           <Text style={styles.title}>{productDetails.name}</Text>
-          <Text style={styles.price}>$ {productDetails.price.toFixed(2)}</Text>
+          <Text style={styles.price}>RM {productDetails.price.toFixed(2)}</Text>
         </View>
 
         <View style={styles.descriptionContainer}>
