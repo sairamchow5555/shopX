@@ -1,5 +1,5 @@
-// App.js
 import React from 'react';
+import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from './src/LoginScreen';
@@ -35,74 +35,76 @@ const CartIcon = (props: any) => {
 
 const App = () => {
   return (
-    <CartProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="login"
-            component={LoginScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="home"
-            component={HomeScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="itemdetails"
-            component={ItemDetailsScreen}
-            options={({navigation}) => ({
-              title: 'PRODUCT DETAILS',
-              headerTitleAlign: 'center',
-              headerStyle: {
-                backgroundColor: '#FFA500',
-              },
-              headerTitleStyle: {
-                color: '#ffffff',
-              },
-              headerTintColor: '#ffffff',
-              headerLeft: () => (
-                <TouchableOpacity
-                  onPress={() => navigation.goBack()}
-                  style={styles.iconContainer}>
-                  <Ionicons name="chevron-back" size={25} color="#ffffff" />
-                </TouchableOpacity>
-              ),
-              headerRight: () => <CartIcon navigation={navigation} />, // Use CartIcon here
-            })}
-          />
-          <Stack.Screen
-            name="cartItems"
-            component={CartItemsScreen}
-            options={({navigation}) => ({
-              headerStyle: {
-                backgroundColor: '#FFA500',
-              },
-              headerTintColor: '#ffffff',
-              headerLeft: () => (
-                <TouchableOpacity
-                  onPress={() => navigation.goBack()}
-                  style={styles.iconContainer}>
-                  <Ionicons name="chevron-back" size={25} color="#ffffff" />
-                </TouchableOpacity>
-              ),
-              headerTitle: () => (
-                <View style={styles.headerTitleContainer}>
-                  <MaterialIcons
-                    name="shopping-cart"
-                    size={25}
-                    color="#ffffff"
-                  />
-                  <Text style={styles.headerTitleText}>SimiCart</Text>
-                </View>
-              ),
-              headerTitleAlign: 'center',
-              headerBackVisible: false,
-            })}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </CartProvider>
+    <NativeBaseProvider>
+      <CartProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="login"
+              component={LoginScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="home"
+              component={HomeScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="itemdetails"
+              component={ItemDetailsScreen}
+              options={({navigation}) => ({
+                title: 'PRODUCT DETAILS',
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: '#FFA500',
+                },
+                headerTitleStyle: {
+                  color: '#ffffff',
+                },
+                headerTintColor: '#ffffff',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.iconContainer}>
+                    <Ionicons name="chevron-back" size={25} color="#ffffff" />
+                  </TouchableOpacity>
+                ),
+                headerRight: () => <CartIcon navigation={navigation} />,
+              })}
+            />
+            <Stack.Screen
+              name="cartItems"
+              component={CartItemsScreen}
+              options={({navigation}) => ({
+                headerStyle: {
+                  backgroundColor: '#FFA500',
+                },
+                headerTintColor: '#ffffff',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={styles.iconContainer}>
+                    <Ionicons name="chevron-back" size={25} color="#ffffff" />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <View style={styles.headerTitleContainer}>
+                    <MaterialIcons
+                      name="shopping-cart"
+                      size={25}
+                      color="#ffffff"
+                    />
+                    <Text style={styles.headerTitleText}>SimiCart</Text>
+                  </View>
+                ),
+                headerTitleAlign: 'center',
+                headerBackVisible: false,
+              })}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CartProvider>
+    </NativeBaseProvider>
   );
 };
 
