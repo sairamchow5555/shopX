@@ -35,7 +35,7 @@ const products: Product[] = [
     price: 29,
     image: require('./images/avena.jpg'),
     description:
-      'Elevate your computing experience with this precision mouse. Its ergonomic design ensures comfort during long hours of work or play. The high-resolution sensor delivers accurate cursor control, while the customizable buttons offer efficient workflow.',
+      'Madina Minyak Goreng Sawit is a high-quality cooking oil made from palm oil. It is ideal for frying, sautéing, and baking. This oil has a high smoke point, which means it can withstand high temperatures without breaking down. It is also rich in antioxidants, which can help protect your cells from damage. Madina Minyak Goreng Sawit is a great choice for those who are looking for a healthy and affordable cooking oil.',
   },
   {
     id: '2',
@@ -43,7 +43,7 @@ const products: Product[] = [
     price: 19,
     image: require('./images/freshday_soap.jpg'),
     description:
-      'Immerse yourself in your favorite music or podcasts with these high-quality earbuds. The crystal-clear sound and noise-cancellation technology provide an exceptional listening experience. The ergonomic design ensures a comfortable fit, even during extended use.',
+      'Fresh Day Soap is a gentle and effective soap that is perfect for everyday use. It is made with natural ingredients that are gentle on your skin. Fresh Day Soap helps to remove dirt and impurities without stripping away your skins natural moisture. It leaves your skin feeling soft, smooth, and refreshed.',
   },
   {
     id: '3',
@@ -51,7 +51,7 @@ const products: Product[] = [
     price: 39,
     image: require('./images/juliet_shampoo.jpg'),
     description:
-      'Power up your devices quickly and efficiently with this fast-charging charger. Its advanced technology delivers rapid charging speeds, saving you time and hassle. The compact and portable design makes it perfect for on-the-go use.',
+      'Juliet Shampoo is a luxurious shampoo that will leave your hair feeling soft, shiny, and healthy. It is formulated with a blend of natural ingredients that help to nourish and protect your hair. Juliet Shampoo helps to remove dirt, oil, and product buildup from your hair. It also helps to add moisture and shine to your hair. Juliet Shampoo is perfect for all hair types.',
   },
   {
     id: '4',
@@ -59,7 +59,7 @@ const products: Product[] = [
     price: 59,
     image: require('./images/madina_avena.jpg'),
     description:
-      'Protect your eyes from harmful UV rays in style with these fashionable sunglasses. The polarized lenses reduce glare and enhance visual clarity, while the sleek frame adds a touch of sophistication to any outfit.',
+      'Avena and Madina is a popular brand of cooking oil in Indonesia. It is made from a blend of palm oil and soybean oil. This oil is ideal for frying, sautéing, and baking. It has a high smoke point, which means it can withstand high temperatures without breaking down. Avena and Madina is also a good source of vitamin E, which is an antioxidant that can help protect your cells from damage.',
   },
   {
     id: '5',
@@ -67,7 +67,7 @@ const products: Product[] = [
     price: 12,
     image: require('./images/madina_oil.jpg'),
     description:
-      'Experience ultimate comfort and support with these stylish sneakers. The breathable mesh upper keeps your feet cool and dry, while the cushioned insole provides all-day comfort. Perfect for casual wear or athletic activities.',
+      'Madina Oil is a versatile cooking oil that can be used for a variety of purposes. It is ideal for frying, sautéing, and baking. This oil has a high smoke point, which means it can withstand high temperatures without breaking down. Madina Oil is also a good source of vitamin E, which is an antioxidant that can help protect your cells from damage.',
   },
   {
     id: '6',
@@ -75,7 +75,7 @@ const products: Product[] = [
     price: 11,
     image: require('./images/meditwist_handwash.jpg'),
     description:
-      'Turn heads with this elegant dress, designed to flatter your figure and enhance your style. The flowing fabric and intricate details create a timeless look, making it perfect for any special occasion.',
+      'Meditwist Handwash is a gentle and effective hand soap that is perfect for everyday use. It is made with natural ingredients that are gentle on your skin. Meditwist Handwash helps to remove dirt, germs, and bacteria from your hands. It leaves your hands feeling clean, soft, and refreshed.',
   },
   {
     id: '7',
@@ -83,7 +83,7 @@ const products: Product[] = [
     price: 71,
     image: require('./images/milgro_familia_milk_powder.jpg'),
     description:
-      'Experience ultimate performance and portability with this powerful laptop. The sleek design and lightweight build make it easy to carry, while the high-resolution display and fast processor deliver a seamless user experience.',
+      'Milgro Familia Milk Powder is a nutritious and delicious milk powder that is perfect for the whole family. It is made with high-quality milk that is rich in protein, calcium, and other essential nutrients. Milgro Familia Milk Powder is easy to prepare and can be enjoyed hot or cold. It is a great way to start your day or to enjoy as a snack.',
   },
   {
     id: '8',
@@ -91,7 +91,7 @@ const products: Product[] = [
     price: 18,
     image: require('./images/milgro_instant_cream_milk_powder.jpg'),
     description:
-      'Stay connected and active with this feature-packed smartwatch. Track your fitness goals, receive notifications, and make calls, all from your wrist. The stylish design and long-lasting battery make it the perfect companion for your busy lifestyle.',
+      'Milgro Full Cream Milk Powder is a rich and creamy milk powder that is perfect for adding to your coffee or tea. It is made with high-quality milk that is rich in protein, calcium, and other essential nutrients. Milgro Full Cream Milk Powder is easy to prepare and can be enjoyed hot or cold. It is a great way to start your day or to enjoy as a snack.',
   },
   {
     id: '9',
@@ -99,7 +99,7 @@ const products: Product[] = [
     price: 33,
     image: require('./images/saba_floral_detergent.jpg'),
     description:
-      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+      'Saba Floral Detergent is a powerful detergent that will leave your clothes clean and fresh. It is formulated with a special blend of enzymes that help to remove tough stains. Saba Floral Detergent also has a pleasant floral scent that will make your laundry smell great. It is safe to use on all types of fabrics, including delicates.',
   },
   {
     id: '10',
@@ -107,7 +107,7 @@ const products: Product[] = [
     price: 46,
     image: require('./images/saba_multipurpose_liquid_detergent.jpg'),
     description:
-      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+      'Saba Multipurpose Liquid Detergent is a versatile detergent that can be used to clean a variety of surfaces. It is effective on laundry, dishes, and hard surfaces. Saba Multipurpose Liquid Detergent is formulated with a special blend of enzymes that help to remove tough stains. It also has a pleasant scent that will leave your home smelling fresh.',
   },
   {
     id: '11',
@@ -115,7 +115,7 @@ const products: Product[] = [
     price: 17,
     image: require('./images/softsilk_beauty_soap.jpg'),
     description:
-      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+      'Soft Silk Beauty Soap is a gentle and effective soap that is perfect for everyday use. It is made with natural ingredients that are gentle on your skin. Soft Silk Beauty Soap helps to remove dirt and impurities without stripping away your skins natural moisture. It leaves your skin feeling soft, smooth, and refreshed.',
   },
   {
     id: '12',
@@ -123,7 +123,7 @@ const products: Product[] = [
     price: 15,
     image: require('./images/Sweetened_condensed_filled_milk.jpg'),
     description:
-      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+      'Milgro Lait Concentre Sucre is a rich and creamy sweetened condensed milk that is perfect for adding to your coffee, tea, or desserts. It is made with high-quality milk and sugar. Milgro Lait Concentre Sucre is easy to use and can be enjoyed hot or cold. It is a great way to add sweetness and flavor to your favorite foods and drinks.',
   },
   {
     id: '13',
@@ -131,7 +131,7 @@ const products: Product[] = [
     price: 11,
     image: require('./images/zenta_detergent_powder.jpg'),
     description:
-      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+      'Zenta Detergent Powder is a powerful detergent that will leave your clothes clean and fresh. It is formulated with a special blend of enzymes that help to remove tough stains. Zenta Detergent Powder also has a pleasant scent that will make your laundry smell great. It is safe to use on all types of fabrics, including delicates.',
   },
   {
     id: '14',
@@ -139,7 +139,7 @@ const products: Product[] = [
     price: 13,
     image: require('./images/zenta_multipurpose_soap.jpg'),
     description:
-      'Immerse yourself in the world of gaming with this high-performance console. Experience stunning graphics, lightning-fast load times, and immersive sound. With a vast library of games, endless entertainment awaits.',
+      'Zenta Multipurpose Soap is a versatile soap that can be used to clean a variety of surfaces. It is effective on laundry, dishes, and hard surfaces. Zenta Multipurpose Soap is formulated with a special blend of ingredients that help to remove dirt, grease, and grime. It also has a pleasant scent that will leave your home smelling fresh.',
   },
 ];
 
