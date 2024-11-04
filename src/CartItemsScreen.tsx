@@ -45,8 +45,8 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
   const handleDecrement = (index: number) => {
     const item = cartItems[index];
     if (item.quantity === 1) {
-      setItemToDelete(index); // Set the item to be deleted
-      setModalVisible(true); // Show the confirmation modal
+      setItemToDelete(index);
+      setModalVisible(true);
     } else {
       setCartItems(prevItems => {
         const updatedItems = [...prevItems];
@@ -69,14 +69,8 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
-        translucent={true}
+        translucent
       />
-      {/* <View style={styles.header}>
-        <TouchableOpacity onPress={() => props.navigation.navigate('home')}>
-          <Ionicons name="arrow-back" size={26} style={styles.cartIcon} />
-        </TouchableOpacity>
-        <Text style={styles.main}>Cart Details</Text>
-      </View> */}
 
       {cartItems.length > 0 ? (
         <View style={styles.contentContainer}>
@@ -106,9 +100,19 @@ const CartItemsScreen: React.FC<CartItemsScreenProps> = props => {
                       <Text style={styles.quantityButtonText}>+</Text>
                     </TouchableOpacity>
                   </View>
-                  <Text style={styles.itemPrice}>
-                    ${(item.product.price * item.quantity).toFixed(2)}
-                  </Text>
+                  {/* Displaying individual price, quantity, and subtotal */}
+                  <View style={styles.itemPriceContainer}>
+                    <Text style={styles.itemPrice}>
+                      ${item.product.price.toFixed(2)}
+                      {'   '}
+                      Each
+                    </Text>
+                    <Text style={styles.itemPrice}>
+                      ${(item.product.price * item.quantity).toFixed(2)}
+                      {'   '}
+                      Subtotal
+                    </Text>
+                  </View>
                 </View>
               </View>
             ))}
@@ -174,30 +178,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f9f9f9', // Light background for classic look
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  main: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333', // Dark text for readability
-  },
-  cartIcon: {
-    color: 'white',
-    // backgroundColor: '#222222',
-    borderRadius: 8,
-    padding: 7,
+    backgroundColor: '#f9f9f9',
   },
   contentContainer: {
     flex: 1,
-    marginBottom: 80, // Space for the checkout button
+    marginBottom: 80,
   },
   scrollView: {
     flex: 1,
@@ -206,10 +191,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#fff', // White background for items
+    backgroundColor: '#fff',
     borderRadius: 8,
     marginBottom: 10,
-    shadowColor: '#000', // Shadow for depth
+    shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -253,8 +238,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-  itemPrice: {
+  itemPriceContainer: {
     marginTop: 8,
+  },
+  itemPrice: {
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
@@ -265,7 +252,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     marginTop: 10,
-    shadowColor: '#000', // Shadow for depth
+    shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -291,7 +278,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 20,
     right: 20,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FFA500',
     borderRadius: 25,
     paddingVertical: 15,
     alignItems: 'center',
@@ -350,10 +337,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#aaa', // Gray for cancel
+    backgroundColor: '#aaa',
   },
   deleteButton: {
-    backgroundColor: '#e74c3c', // Red for delete
+    backgroundColor: '#e74c3c',
   },
   modalButtonText: {
     color: 'white',
