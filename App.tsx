@@ -19,7 +19,7 @@ const CartIcon = (props: any) => {
 
   return (
     <TouchableOpacity
-      onPress={() => props.navigation.navigate('CartItems')}
+      onPress={() => props.navigation.navigate('cartItems')}
       style={styles.iconContainer}>
       <View style={styles.cartIconContainer}>
         <MaterialIcons name="shopping-cart" size={24} color="#ffffff" />
